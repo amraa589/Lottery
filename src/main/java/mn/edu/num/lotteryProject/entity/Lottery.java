@@ -1,15 +1,69 @@
 package mn.edu.num.lotteryProject.entity;
 
+import javax.persistence.*;
 import java.sql.Blob;
 import java.sql.Date;
 
+//@Table( name = "LOTTERY")
 public class Lottery {
+//
+//    @Id
+//    @SequenceGenerator(
+//            name = "lottery_sequence",
+//            sequenceName = "lottery_sequence",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = GenerationType.SEQUENCE,
+//            generator = "lottery_sequence"
+//    )
+//    @Column(
+//            name = "ID",
+//            updatable = false
+//    )
+    private long id;
+//
+//    @Column(
+//            name = "NAME",
+//            nullable = false
+//    )
     public String name;
+//
+//    @Column(
+//            name = "DESCRIPTION",
+//            nullable = false
+//    )
     public String description;
+
+//
+//    @Column(
+//            name = "BANNER",
+//            nullable = false
+//    )
     public Blob banner;
+//
+//    @Column(
+//            name = "STARTDATE",
+//            nullable = false
+//    )
     public Date startDate;
+//
+//    @Column(
+//            name = "ENDDATE",
+//            nullable = false
+//    )
+
     public Date endDate;
+//
+//    @Column(
+//            name = "RUNNINGDATE",
+//            nullable = false
+//    )
     public Date runningDate;
+//
+//    @Column(
+//            name = "NUMBEROFWINNERS"
+//    )
     public Integer numberOfWinners;
 
 

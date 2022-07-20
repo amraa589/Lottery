@@ -1,7 +1,5 @@
 package mn.edu.num.lotteryProject.entity;
 
-import org.hibernate.annotations.Generated;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,22 +7,63 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
-    @Column(name="ID")
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
+
+    @Column(
+            name = "ID",
+            updatable = false
+    )
     private Long id;
-    @Column(name="USERNAME")
+
+    @Column(
+            name = "USERNAME",
+            nullable = false,
+            unique = true
+    )
     public String userName;
-    @Column(name="FIRSTNAME")
+
+    @Column(
+            name = "FIRSTNAME",
+            nullable = false
+    )
     public String firstName;
-    @Column(name="LASTNAME")
+
+    @Column(
+            name = "LASTNAME",
+            nullable = false
+    )
     public String lastName;
-    @Column(name="PASSWORD")
+
+    @Column(
+            name = "PASSWORD",
+            nullable = false
+    )
     public String password;
-    @Column(name="SALT")
+
+    @Column(
+            name = "SALT",
+            nullable = false
+    )
     public String salt;
-    @Column(name="HASH")
+
+    @Column(
+            name = "HASH",
+            nullable = false
+    )
     public String hash;
-    @Column(name="EMAIL")
+
+    @Column(
+            name = "EMAIL",
+            nullable = false
+    )
     public String email;
 
     public User() {

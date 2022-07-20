@@ -1,7 +1,16 @@
 package mn.edu.num.lotteryProject.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public class UserRequest {
-    private String username, firstName, lastName, email, password;
+    private String username, firstName, lastName, email;
+
+    @Min(value = 8)
+    @Max(value = 24)
+    private String password;
 
     public String getUsername() {
         return username;

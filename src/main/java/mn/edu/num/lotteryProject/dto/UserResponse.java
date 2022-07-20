@@ -6,7 +6,18 @@ public class UserResponse {
     //@JsonInclude(JsonInclude.Include.NON_NULL)
     private String firstName, lastName, email, username;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String jwt;
+
     private Long id;
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -47,4 +58,6 @@ public class UserResponse {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 }
