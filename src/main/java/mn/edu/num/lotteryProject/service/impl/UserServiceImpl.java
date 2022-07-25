@@ -1,21 +1,19 @@
 package mn.edu.num.lotteryProject.service.impl;
 
+import mn.edu.num.lotteryProject.config.JwtTokenUtil;
 import mn.edu.num.lotteryProject.dto.LoginRequest;
 import mn.edu.num.lotteryProject.dto.UserRequest;
 import mn.edu.num.lotteryProject.dto.UserResponse;
 import mn.edu.num.lotteryProject.entity.User;
 import mn.edu.num.lotteryProject.repository.UserRepository;
-import mn.edu.num.lotteryProject.utils.PasswordEncoder;
+import mn.edu.num.lotteryProject.service.JwtUserDetailsService;
 import mn.edu.num.lotteryProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
+import javax.validation.ValidationException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +23,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUserDetailsService userDetailsService;
 
     @Override
     public List<UserResponse> fetchUserList() {
@@ -50,15 +54,19 @@ public class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setUserName(request.getUsername());
-
-        PasswordEncoder encoder =new PasswordEncoder();
-        List<String> password = encoder.encrypt(request.getPassword());
-        user.setPassword(password.get(0));
+        user.setLastName(request.getLastName());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         user = userRepository.save(user);
 
         UserResponse response = new UserResponse();
+
         response.setId(user.getId());
+        response.setUsername(user.getUserName());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+
         return response;
     }
 
@@ -81,59 +89,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse login(LoginRequest dto) throws Exception {
-        Optional<User> optional = userRepository.findByUserName(dto.getUsername());
-        if(optional.isPresent()) {
-            User user = optional.get();
-            String password = user.getPassword();
-            /*
-            * @todo Check password
-            * */
-//            String p = new PasswordEncoder().decrypt(dto.getPassword(), user.getSalt());
-//            System.out.println(p);
-//            System.out.println(password);
-//            if(p != password) {
-//                throw new Exception("Incorrect password");
-//            }
-            UserResponse response = new UserResponse();
-            response.setId(user.getId());
-            response.setFirstName(user.getFirstName());
-            response.setLastName(user.getLastName());
-            response.setEmail(user.getEmail());
-            response.setUsername(user.getUserName());
-            /**
-             * @todo Generate JWT
-             */
+    public UserResponse login(LoginRequest dto) throws ValidationException {
 
-            response.setJwt("asdjkasdkaklsdalskasdaskjdaksd");
+        User user = userRepository.findByUserName(dto.getUsername()).orElseThrow(
+                () -> new ValidationException("user not found"));
 
-            return new UserResponse();
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
+            throw new ValidationException("password not match");
 
-        } else {
-            throw new Exception("User does not exist");
-        }
+        UserResponse response = new UserResponse();
+
+        response.setId(user.getId());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+        response.setUsername(user.getUserName());
+        response.setJwt(jwtTokenUtil.generateToken(user.getUserName()));
+
+        return response;
+
     }
-//    public void hashWithSalt(String username, String password){
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String hashedPassword = bCryptPasswordEncoder.encode(password);
-//    }
-////
-////    @Override
-////    public void hashPassword(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-////        SecureRandom secureRandom = new SecureRandom();
-////        //make sure to save this into a database
-////        byte[] salt = secureRandom.generateSeed(12);
-////
-////        PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), salt, 10, 512);
-////        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-////        byte[] hash = skf.generateSecret(pbeKeySpec).getEncoded();
-////
-////        //converting to string to store into database
-////        String base64Hash = Base64.getMimeEncoder().encodeToString(hash);
-////
-////        User user = new User();
-////        user.setHash(base64Hash);
-////        user.setSalt(new String(salt));
-////
-////    }
+
+    @Override
+    public User getUserDetails(String username) throws Exception {
+        Optional<User> optional = userRepository.findByUserName(username);
+        if (optional.isPresent())
+            return optional.get();
+        throw new Exception("User doesn't found");
+    }
 }

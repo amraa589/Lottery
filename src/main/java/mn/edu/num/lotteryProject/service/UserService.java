@@ -3,6 +3,7 @@ package mn.edu.num.lotteryProject.service;
 import mn.edu.num.lotteryProject.dto.LoginRequest;
 import mn.edu.num.lotteryProject.dto.UserRequest;
 import mn.edu.num.lotteryProject.dto.UserResponse;
+import mn.edu.num.lotteryProject.entity.User;
 import mn.edu.num.lotteryProject.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,5 @@ public interface UserService {
 
     UserResponse login(LoginRequest dto) throws Exception;
 
-//    void hashPassword(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    User getUserDetails(String username) throws Exception;
 }

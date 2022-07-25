@@ -3,80 +3,41 @@ package mn.edu.num.lotteryProject.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="USER")
+@Table(name = "USER")
 public class User {
 
+    @Column(name = "USERNAME", nullable = false, unique = true)
+    private String userName;
+
+    @Column(name = "FIRSTNAME", nullable = false)
+    private String firstName;
+
+    @Column(name = "LASTNAME", nullable = false)
+    private String lastName;
+
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
+
+    @Column(name = "SALT", nullable = false)
+    private String salt;
+
+    @Column(name = "HASH", nullable = false)
+    private String hash;
+
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
-
-    @Column(
-            name = "ID",
-            updatable = false
-    )
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @Column(name = "ID", updatable = false)
     private Long id;
-
-    @Column(
-            name = "USERNAME",
-            nullable = false,
-            unique = true
-    )
-    public String userName;
-
-    @Column(
-            name = "FIRSTNAME",
-            nullable = false
-    )
-    public String firstName;
-
-    @Column(
-            name = "LASTNAME",
-            nullable = false
-    )
-    public String lastName;
-
-    @Column(
-            name = "PASSWORD",
-            nullable = false
-    )
-    public String password;
-
-    @Column(
-            name = "SALT",
-            nullable = false
-    )
-    public String salt;
-
-    @Column(
-            name = "HASH",
-            nullable = false
-    )
-    public String hash;
-
-    @Column(
-            name = "EMAIL",
-            nullable = false
-    )
-    public String email;
 
     public User() {
 
     }
 
-    public User(String userName,
-                String firstName,
-                String lastName,
-                String password,
-                String salt,
-                String hash,
-                String email) {
+    public User(String userName, String firstName, String lastName, String password, String salt, String hash, String email) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -3,14 +3,12 @@ package mn.edu.num.lotteryProject.controller;
 import mn.edu.num.lotteryProject.dto.LoginRequest;
 import mn.edu.num.lotteryProject.dto.UserRequest;
 import mn.edu.num.lotteryProject.dto.UserResponse;
-import mn.edu.num.lotteryProject.entity.User;
 import mn.edu.num.lotteryProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
@@ -21,10 +19,9 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/list")
-    public List<UserResponse> fetchUserList ()
-    {
+    public List<UserResponse> fetchUserList() {
         List<UserResponse> response = userService.fetchUserList();
-       return response;
+        return response;
     }
 
 //    @GetMapping("/log-in")
@@ -33,8 +30,7 @@ public class UserController {
 //    }
 
     @DeleteMapping("/{id}")
-    public UserResponse fetchUserList (@PathVariable String id)
-    {
+    public UserResponse fetchUserList(@PathVariable String id) {
         try {
             return userService.deleteUser(id);
         } catch (Exception e) {
@@ -43,10 +39,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserResponse login (@RequestBody LoginRequest dto)
-    {
+    public UserResponse login(@RequestBody LoginRequest dto) throws ValidationException {
         try {
             return userService.login(dto);
+        } catch (ValidationException e) {
+            throw new ValidationException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
