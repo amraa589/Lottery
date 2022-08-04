@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     JwtTokenUtil jwtTokenUtil;
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
@@ -56,7 +57,8 @@ public class UserServiceImpl implements UserService {
         user.setUserName(request.getUsername());
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
+//        user.setHash(passwordEncoder.encode(request.getPassword()));
+//
         user = userRepository.save(user);
 
         UserResponse response = new UserResponse();

@@ -31,8 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().permitAll() -- ymar huseltiiig authenticate hiilgui nevtruuleh
 
                 .antMatchers("/api/v1/auth/**").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/lottery/**").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
+//                    .antMatchers("/api/v1/**").permitAll()
+//                    .anyRequest().authenticated().and()
+//                    .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -18,10 +18,10 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @Column(name = "SALT", nullable = false)
+    @Column(name = "SALT")
     private String salt;
 
-    @Column(name = "HASH", nullable = false)
+    @Column(name = "HASH")
     private String hash;
 
     @Column(name = "EMAIL", nullable = false)

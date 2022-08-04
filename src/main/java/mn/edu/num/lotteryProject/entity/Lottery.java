@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.sql.Blob;
 import java.sql.Date;
 
+@Entity
 @Table(name = "LOTTERY")
 public class Lottery {
 
@@ -13,8 +14,9 @@ public class Lottery {
     @Column(name = "DESCRIPTION", nullable = false)
     public String description;
 
+    @Lob
     @Column(name = "BANNER", nullable = false)
-    public Blob banner;
+    public byte[] banner;
 
     @Column(name = "STARTDATE", nullable = false)
     public Date startDate;
@@ -31,23 +33,12 @@ public class Lottery {
     @Id
     @SequenceGenerator(name = "lottery_sequence", sequenceName = "lottery_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lottery_sequence")
-
     @Column(name = "ID", updatable = false)
     private long id;
 
 
     public Lottery() {
 
-    }
-
-    public Lottery(String name, String description, Blob banner, Date startDate, Date endDate, Date runningDate, Integer numberOfWinners) {
-        this.name = name;
-        this.description = description;
-        this.banner = banner;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.runningDate = runningDate;
-        this.numberOfWinners = numberOfWinners;
     }
 
     public String getName() {
@@ -66,11 +57,11 @@ public class Lottery {
         this.description = description;
     }
 
-    public Blob getBanner() {
+    public byte[] getBanner() {
         return banner;
     }
 
-    public void setBanner(Blob banner) {
+    public void setBanner(byte[] banner) {
         this.banner = banner;
     }
 
@@ -106,4 +97,11 @@ public class Lottery {
         this.numberOfWinners = numberOfWinners;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

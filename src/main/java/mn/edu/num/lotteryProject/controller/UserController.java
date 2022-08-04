@@ -24,10 +24,6 @@ public class UserController {
         return response;
     }
 
-//    @GetMapping("/log-in")
-//    public void configure (){
-//
-//    }
 
     @DeleteMapping("/{id}")
     public UserResponse fetchUserList(@PathVariable String id) {
