@@ -23,7 +23,6 @@ dependencies {
 	implementation 'com.github.excelmapper:excelmapper:0.1.2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	implementation 'org.apache.poi:poi-ooxml:5.2.2'
-
 }
 
 tasks.named('test') {

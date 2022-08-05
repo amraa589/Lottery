@@ -1,8 +1,8 @@
-package mn.edu.num.lotteryProject.service;
+package mn.edu.num.lotteryProject.service.impl;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
+import mn.edu.num.lotteryProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UserService userService;

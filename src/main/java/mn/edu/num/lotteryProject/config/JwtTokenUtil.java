@@ -2,14 +2,11 @@ package mn.edu.num.lotteryProject.config;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.function.Function;
 
 import io.jsonwebtoken.JwtException;
-import mn.edu.num.lotteryProject.service.JwtUserDetailsService;
+import mn.edu.num.lotteryProject.service.impl.JwtUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +21,7 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
 
-    public static final long JWT_TOKEN_VALIDITY = 500 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 500 * 60 * 600;
 
     @Value("secret")
     private String secret;
@@ -42,7 +39,7 @@ public class JwtTokenUtil implements Serializable {
 
     }
 
-    public UsernamePasswordAuthenticationToken getAuthentication(String token, JwtUserDetailsService userDetailsService) {
+    public UsernamePasswordAuthenticationToken getAuthentication(String token, JwtUserDetailsServiceImpl userDetailsService) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUsernameFromToken(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 

@@ -40,29 +40,30 @@ public class LotteryServiceImpl implements LotteryService {
     }
 
     @Override
-    public LotteryResponse createLottery(LotteryRequest lotteryRequest) {
+    public LotteryResponse createLottery(LotteryRequest dto) {
+
         Lottery lottery = new Lottery();
 
-        lottery.setBanner(lotteryRequest.getBanner());
-        lottery.setDescription(lotteryRequest.getDescription());
-        lottery.setEndDate(lotteryRequest.getEndDate());
-        lottery.setRunningDate(lotteryRequest.getRunningDate());
-        lottery.setStartDate(lotteryRequest.getStartDate());
-        lottery.setName(lotteryRequest.getName());
-        lottery.setNumberOfWinners(lottery.getNumberOfWinners());
+        lottery.setDescription(dto.getDescription());
+        lottery.setEndDate(dto.getEndDate());
+        lottery.setRunningDate(dto.getRunningDate());
+        lottery.setStartDate(dto.getStartDate());
+        lottery.setName(dto.getName());
+        lottery.setNumberOfWinners(dto.getNumberOfWinners());
 
         lottery = lotteryRepository.save(lottery);
 
         LotteryResponse response = new LotteryResponse();
 
         response.setId(lottery.getId());
-        response.setBanner(lottery.getBanner());
+//        response.setBanner(lottery.getBanner());
         response.setDescription(lottery.getDescription());
         response.setEndDate(lottery.getEndDate());
         response.setRunningDate(lottery.getRunningDate());
         response.setStartDate(lottery.getStartDate());
         response.setName(lottery.getName());
         response.setNumberOfWinners(lottery.getNumberOfWinners());
+
         return response;
     }
 

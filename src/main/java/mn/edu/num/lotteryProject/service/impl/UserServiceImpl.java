@@ -6,7 +6,6 @@ import mn.edu.num.lotteryProject.dto.request.UserRequest;
 import mn.edu.num.lotteryProject.dto.response.UserResponse;
 import mn.edu.num.lotteryProject.entity.User;
 import mn.edu.num.lotteryProject.repository.UserRepository;
-import mn.edu.num.lotteryProject.service.JwtUserDetailsService;
 import mn.edu.num.lotteryProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private JwtUserDetailsServiceImpl userDetailsService;
 
     @Override
     public List<UserResponse> fetchUserList() {
@@ -81,7 +80,6 @@ public class UserServiceImpl implements UserService {
         response.setEmail(user.getEmail());
 
         return response;
-
     }
 
     @Override

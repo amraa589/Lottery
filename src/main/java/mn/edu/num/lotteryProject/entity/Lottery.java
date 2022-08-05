@@ -15,7 +15,7 @@ public class Lottery {
     public String description;
 
     @Lob
-    @Column(name = "BANNER", nullable = false)
+    @Column(name = "BANNER")
     public byte[] banner;
 
     @Column(name = "STARTDATE", nullable = false)

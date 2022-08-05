@@ -18,8 +18,8 @@ public class ExcelServiceImpl {
 
     public void save(MultipartFile file) {
         try {
-            List<User> tutorials = ExcelHelper.excelToUsers(file.getInputStream());
-            repository.saveAll(tutorials);
+            List<User> users = ExcelHelper.excelToUsers(file.getInputStream());
+            repository.saveAll(users);
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }
