@@ -23,7 +23,7 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public UserResponse fetchUserList(@PathVariable String id) {
         try {
             return userService.deleteUser(id);

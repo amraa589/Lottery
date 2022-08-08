@@ -1,6 +1,7 @@
 package mn.edu.num.lotteryProject.controller;
 
 
+import mn.edu.num.lotteryProject.entity.Customer;
 import mn.edu.num.lotteryProject.entity.User;
 import mn.edu.num.lotteryProject.service.impl.ExcelServiceImpl;
 import mn.edu.num.lotteryProject.utils.ExcelHelper;
@@ -47,15 +48,15 @@ public class ExcelController {
     }
 
     @GetMapping("/tutorials")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         try {
-            List<User> tutorials = fileService.getAllUsers();
+            List<Customer> customers = fileService.getAllCustomers();
 
-            if (tutorials.isEmpty()) {
+            if (customers.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(tutorials, HttpStatus.OK);
+            return new ResponseEntity<>(customers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

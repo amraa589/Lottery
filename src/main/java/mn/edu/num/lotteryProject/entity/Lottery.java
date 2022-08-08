@@ -1,7 +1,6 @@
 package mn.edu.num.lotteryProject.entity;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.sql.Date;
 
 @Entity

@@ -7,7 +7,6 @@ public class LotteryRequest {
     private String name, description;
     private Integer numberOfWinners;
     private Date runningDate, endDate, startDate;
-    private byte[] banner;
 
     public String getName() {
         return name;
@@ -57,11 +56,11 @@ public class LotteryRequest {
         this.startDate = startDate;
     }
 
-    public byte[] getBanner() {
-        return banner;
-    }
-
-    public void setBanner(byte[] banner) {
-        this.banner = banner;
-    }
+//    public byte[] getBanner() {
+//        return banner;
+//    }
+//
+//    public void setBanner(byte[] banner) {
+//        this.banner = banner;
+//    }
 }

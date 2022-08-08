@@ -2,6 +2,7 @@ package mn.edu.num.lotteryProject.service.impl;
 
 import mn.edu.num.lotteryProject.dto.request.LotteryRequest;
 import mn.edu.num.lotteryProject.dto.response.LotteryResponse;
+import mn.edu.num.lotteryProject.dto.response.WinnerResponse;
 import mn.edu.num.lotteryProject.entity.Lottery;
 import mn.edu.num.lotteryProject.repository.LotteryRepository;
 import mn.edu.num.lotteryProject.service.LotteryService;
@@ -15,18 +16,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class LotteryServiceImpl implements LotteryService {
     @Autowired
     LotteryRepository lotteryRepository;
 
-
     @Override
-    public List<LotteryResponse> fetchLotteryList() throws Exception{
+    public List<LotteryResponse> fetchLotteryList() throws Exception {
         List<Lottery> list = lotteryRepository.findAll();
         List<LotteryResponse> response = new ArrayList<>();
-        for(Lottery lottery : list) {
+        for (Lottery lottery : list) {
             LotteryResponse tmp = new LotteryResponse();
             tmp.setDescription(lottery.getDescription());
             tmp.setRunningDate(lottery.getRunningDate());
@@ -40,11 +41,13 @@ public class LotteryServiceImpl implements LotteryService {
     }
 
     @Override
-    public LotteryResponse createLottery(LotteryRequest dto) {
+    public LotteryResponse createLottery(LotteryRequest dto, byte[] img) {
 
         Lottery lottery = new Lottery();
 
         lottery.setDescription(dto.getDescription());
+
+        lottery.setBanner(img);
         lottery.setEndDate(dto.getEndDate());
         lottery.setRunningDate(dto.getRunningDate());
         lottery.setStartDate(dto.getStartDate());
@@ -87,18 +90,35 @@ public class LotteryServiceImpl implements LotteryService {
     }
 
     @Override
-    public Lottery getLotteryDetails(Long id) throws Exception{
+    public Lottery getLotteryDetails(Long id) throws Exception {
         Optional<Lottery> optional = lotteryRepository.findById(id);
-        if (optional.isPresent())
-            return optional.get();
+        if (optional.isPresent()) return optional.get();
         throw new Exception("Lottery doesn't found");
     }
 
     @Override
     public void saveImage(MultipartFile imageFile) throws Exception {
         String folder = "/photos/";
-        byte bytes[] = imageFile.getBytes();
+        byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder + imageFile.getOriginalFilename());
-        Files.write(path,bytes);
+        Files.write(path, bytes);
+    }
+
+    @Override
+    public List<WinnerResponse> fetchLotteryWinners(int numberOfWinners, int numberOfLottery) {
+        List<Integer> winningLotteryIds = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < numberOfWinners; i++) {
+            while (true) {
+                int winningLotteryId = random.nextInt(numberOfLottery) + 1;
+                if (!winningLotteryIds.contains(winningLotteryId)) {
+                    winningLotteryIds.add(winningLotteryId);
+                    break;
+                }
+            }
+        }
+
+
+        return null;
     }
 }

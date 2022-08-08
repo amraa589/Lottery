@@ -1,7 +1,7 @@
 package mn.edu.num.lotteryProject.utils;
 
 
-import mn.edu.num.lotteryProject.entity.User;
+import mn.edu.num.lotteryProject.entity.Customer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,14 +20,14 @@ import java.util.List;
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     static String[] HEADERs = {"Id", "FirstName", "LastName", "email", "UserName"};
-    static String SHEET = "UserForLotteryProject";
+    static String SHEET = "customers";
 
     public static boolean hasExcelFormat(MultipartFile file) {
 
         return TYPE.equals(file.getContentType());
     }
 
-    public static ByteArrayInputStream usersToExcel(List<User> users) {
+    public static ByteArrayInputStream usersToExcel(List<Customer> customers) {
 
         try (Workbook workbook = new XSSFWorkbook()) {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -42,14 +42,13 @@ public class ExcelHelper {
                 }
 
                 int rowIdx = 1;
-                for (User user : users) {
+                for (Customer customer : customers) {
                     Row row = sheet.createRow(rowIdx++);
 
-                    row.createCell(0).setCellValue(user.getId());
-                    row.createCell(1).setCellValue(user.getFirstName());
-                    row.createCell(2).setCellValue(user.getLastName());
-                    row.createCell(3).setCellValue(user.getEmail());
-                    row.createCell(4).setCellValue(user.getUserName());
+                    row.createCell(0).setCellValue(customer.getId());
+                    row.createCell(1).setCellValue(customer.getFirstName());
+                    row.createCell(2).setCellValue(customer.getLastName());
+                    row.createCell(3).setCellValue(customer.getRegistrationNumber());
 
                 }
 
@@ -61,14 +60,14 @@ public class ExcelHelper {
         }
     }
 
-    public static List<User> excelToUsers(InputStream is) {
+    public static List<Customer> excelToCustomers(InputStream is) {
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<User> users = new ArrayList<User>();
+            List<Customer> customers = new ArrayList<Customer>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -80,7 +79,7 @@ public class ExcelHelper {
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                User user = new User();
+                Customer customer = new Customer();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -88,24 +87,20 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            user.setId((long) currentCell.getNumericCellValue());
+                            customer.setId((long) currentCell.getNumericCellValue());
                             break;
 
                         case 1:
-                            user.setFirstName(currentCell.getStringCellValue());
+                            customer.setFirstName(currentCell.getStringCellValue());
                             break;
 
                         case 2:
-                            user.setLastName(currentCell.getStringCellValue());
+                            customer.setLastName(currentCell.getStringCellValue());
                             break;
 
                         case 3:
-                            user.setEmail(currentCell.getStringCellValue());
+                            customer.setRegistrationNumber(currentCell.getStringCellValue());
                             break;
-                        case 4:
-                            user.setUserName(currentCell.getStringCellValue());
-                            break;
-
                         default:
                             break;
                     }
@@ -113,15 +108,12 @@ public class ExcelHelper {
                     cellIdx++;
                 }
 
-                users.add(user);
+                customers.add(customer);
             }
             workbook.close();
-            return users;
+            return customers;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
     }
 }
-
-
-// LocalDateTime aar hiigeed yvsan ni amar bishuu?

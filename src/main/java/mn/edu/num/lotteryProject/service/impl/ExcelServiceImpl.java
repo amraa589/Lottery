@@ -4,7 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
+import mn.edu.num.lotteryProject.entity.Customer;
 import mn.edu.num.lotteryProject.entity.User;
+import mn.edu.num.lotteryProject.repository.CustomerRepository;
 import mn.edu.num.lotteryProject.repository.UserRepository;
 import mn.edu.num.lotteryProject.utils.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +16,28 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ExcelServiceImpl {
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     public void save(MultipartFile file) {
         try {
-            List<User> users = ExcelHelper.excelToUsers(file.getInputStream());
-            repository.saveAll(users);
+            List<Customer> customers = ExcelHelper.excelToCustomers(file.getInputStream());
+            customerRepository.saveAll(customers);
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }
     }
 
     public ByteArrayInputStream load() {
-        List<User> users = repository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
-        ByteArrayInputStream in = ExcelHelper.usersToExcel(users);
+        ByteArrayInputStream in = ExcelHelper.usersToExcel(customers);
         return in;
     }
 
-    public List<User> getAllUsers() {
-        return repository.findAll();
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 }
