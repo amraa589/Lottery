@@ -1,7 +1,5 @@
 package mn.edu.num.lotteryProject.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 public class LoginRequest {
 
     private String username, password;

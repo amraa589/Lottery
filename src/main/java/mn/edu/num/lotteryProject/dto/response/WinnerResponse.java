@@ -1,7 +1,7 @@
 package mn.edu.num.lotteryProject.dto.response;
 
 public class WinnerResponse {
-    private String firstName, lastName, userName, lotteryId, email, phoneNumber;
+    private String firstName, lastName, lotteryId, registrationNumber, phoneNumber;
 
     private Long id;
 
@@ -21,14 +21,6 @@ public class WinnerResponse {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getLotteryId() {
         return lotteryId;
     }
@@ -37,12 +29,12 @@ public class WinnerResponse {
         this.lotteryId = lotteryId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public String getPhoneNumber() {

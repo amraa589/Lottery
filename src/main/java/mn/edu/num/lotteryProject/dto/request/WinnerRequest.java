@@ -1,7 +1,7 @@
 package mn.edu.num.lotteryProject.dto.request;
 
 public class WinnerRequest {
-    private String firstName, lastName, userName, email, phoneNumber;
+    private String firstName, lastName, registrationNumber, phoneNumber;
 
     private String lotteryId;
 
@@ -29,21 +29,12 @@ public class WinnerRequest {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public String getPhoneNumber() {

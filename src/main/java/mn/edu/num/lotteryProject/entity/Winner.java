@@ -10,16 +10,14 @@ public class Winner {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "winner_sequence")
     @Column(name = "WINNER_ID", updatable = false)
     private Long id;
-    @Column(name = "USERNAME", nullable = false, unique = true)
-    private String userName;
 
     @Column(name = "FIRSTNAME", nullable = false)
     private String firstName;
 
     @Column(name = "LASTNAME", nullable = false)
     private String lastName;
-    @Column(name = "EMAIL", nullable = false)
-    private String email;
+    @Column(name = "REGISTRATION_NUMBER", nullable = false)
+    private String registrationNumber;
     @Column(name = "PHONENUMBER", nullable = false)
     private String phoneNumber;
 
@@ -29,21 +27,21 @@ public class Winner {
     public Winner() {
     }
 
-    public Winner(String userName, String firstName, String lastName, String email, String phoneNumber, String lotteryId) {
-        this.userName = userName;
+    public Lottery getLottery() {
+        return lottery;
+    }
+
+    public void setLottery(Lottery lottery) {
+        this.lottery = lottery;
+    }
+
+    public Winner(String firstName, String lastName, String registrationNumber, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.registrationNumber = registrationNumber;
         this.phoneNumber = phoneNumber;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -61,12 +59,12 @@ public class Winner {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRegistrationNumber(String email) {
+        this.registrationNumber = email;
     }
 
     public String getPhoneNumber() {

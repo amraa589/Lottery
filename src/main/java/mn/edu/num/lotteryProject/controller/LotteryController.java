@@ -2,12 +2,9 @@ package mn.edu.num.lotteryProject.controller;
 
 import mn.edu.num.lotteryProject.dto.request.LotteryRequest;
 import mn.edu.num.lotteryProject.dto.response.LotteryResponse;
-import mn.edu.num.lotteryProject.dto.response.UserResponse;
 import mn.edu.num.lotteryProject.dto.response.WinnerResponse;
-import mn.edu.num.lotteryProject.entity.Customer;
 import mn.edu.num.lotteryProject.service.CustomerService;
 import mn.edu.num.lotteryProject.service.LotteryService;
-import mn.edu.num.lotteryProject.utils.ExcelHelper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
 
 
 @RestController
@@ -40,21 +36,33 @@ public class LotteryController {
         return response;
     }
 
+//    @PostMapping("/create")
+//    public String createLottery(@ModelAttribute LotteryRequest dto, @RequestParam("imageFile") MultipartFile imageFile) {
+//        String returnValue = "";
+//        try {
+//            byte[] image = Base64.encodeBase64(imageFile.getBytes());
+////            byte[] customers = Base64.encodeBase64(customerFile.getBytes());
+////                customerService.save(customerFile);
+//
+//            lotteryService.createLottery(dto, image);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            returnValue = "error";
+//        }
+//        return returnValue;
+//    }
+
     @PostMapping("/create")
-    public String createLottery(@ModelAttribute LotteryRequest dto, @RequestParam("imageFile") MultipartFile imageFile, @RequestParam("customerFile") MultipartFile customerFile) {
-        String returnValue = "";
+    public LotteryResponse createLottery(@ModelAttribute LotteryRequest dto, @RequestParam("imageFile") MultipartFile imageFile) throws Exception {
         try {
             byte[] image = Base64.encodeBase64(imageFile.getBytes());
 //            byte[] customers = Base64.encodeBase64(customerFile.getBytes());
-//            if (ExcelHelper.hasExcelFormat(customerFile)) {
-                customerService.save(customerFile);
-//            }
-            lotteryService.createLottery(dto, image);
+//                customerService.save(customerFile);
+            return lotteryService.createLottery(dto, image);
         } catch (Exception e) {
             e.printStackTrace();
-            returnValue = "error";
+            throw new Exception("Unable to create Lottery!");
         }
-        return returnValue;
     }
 
     @DeleteMapping("/delete/{id}")
@@ -65,13 +73,14 @@ public class LotteryController {
             throw new RuntimeException(e);
         }
     }
-    @GetMapping("/winner")
-    public List<WinnerResponse>  fetchWinnerList(@PathVariable String id) {
 
+
+    //    @RequestParam("customerFile") MultipartFile customerFile
+    @GetMapping("/winner/{id}")
+    public WinnerResponse fetchWinnerList(@PathVariable String id) {
         try {
-//            List<WinnerResponse> winners = lotteryService.fetchLotteryWinners( int numberOfWinners, int numberOfLottery);
-//            return winners;
-            return null;
+            WinnerResponse winnerResponse = lotteryService.lotteryWinner(id);
+            return winnerResponse;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

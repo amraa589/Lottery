@@ -29,10 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-//                .anyRequest().permitAll() -- ymar huseltiiig authenticate hiilgui nevtruuleh
+                .anyRequest().permitAll().and()
+//                -- ymar huseltiiig authenticate hiilgui nevtruuleh
 
-                .antMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().authenticated().and()
+//                .antMatchers("/api/v1/auth/**").permitAll()
+//                .anyRequest().authenticated().and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

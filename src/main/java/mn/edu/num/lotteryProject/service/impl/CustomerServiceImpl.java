@@ -1,5 +1,6 @@
 package mn.edu.num.lotteryProject.service.impl;
 
+import mn.edu.num.lotteryProject.dto.request.CustomerRequest;
 import mn.edu.num.lotteryProject.dto.response.CustomerResponse;
 import mn.edu.num.lotteryProject.entity.Customer;
 import mn.edu.num.lotteryProject.repository.CustomerRepository;
@@ -18,11 +19,39 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
-    public CustomerResponse createCustomer(byte[] excel) throws Exception {
+
+    @Override
+    public CustomerResponse createCustomer(CustomerRequest request) throws Exception{
+
         Customer customer = new Customer();
 
+        customer.setFirstName(request.getFirstName());
+        customer.setLastName(request.getLastName());
+        customer.setPhoneNumber(request.getPhoneNumber());
+        customer.setRegistrationNumber(request.getRegistrationNumber());
 
-//        customer = customerRepository.save(customer);
+        customer = customerRepository.save(customer);
+
+        CustomerResponse response = new CustomerResponse();
+
+        response.setId(customer.getId());
+        response.setFirstName(customer.getFirstName());
+        response.setLastName(customer.getLastName());
+        response.setPhoneNumber(customer.getPhoneNumber());
+        response.setRegistrationNumber(customer.getRegistrationNumber());
+
+        return response;
+    }
+
+    public List<CustomerResponse> createCustomers(byte[] excel) throws Exception {
+        Customer customer = new Customer();
+
+        /*todo
+        * excel ees unshaad hereglegchiig database ruu hadgaldag bolgoh heregtei
+        * */
+
+
+        customer = customerRepository.save(customer);
         return null;
     }
 

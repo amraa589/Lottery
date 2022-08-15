@@ -1,7 +1,7 @@
 package mn.edu.num.lotteryProject.dto.response;
 
 public class CustomerResponse {
-    private String firstName, lastName, registrationNumber;
+    private String firstName, lastName, registrationNumber, phoneNumber;
 
     private Long id;
 
@@ -27,6 +27,14 @@ public class CustomerResponse {
 
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {

@@ -7,7 +7,7 @@ import java.sql.Date;
 @Table(name = "LOTTERY")
 public class Lottery {
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     public String name;
 
     @Column(name = "DESCRIPTION", nullable = false)

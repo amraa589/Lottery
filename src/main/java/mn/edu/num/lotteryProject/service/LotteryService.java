@@ -20,5 +20,7 @@ public interface LotteryService {
 
     void saveImage(MultipartFile imageFile) throws Exception;
 
-    List<WinnerResponse> fetchLotteryWinners(int numberOfWinners, int numberOfLottery);
+//    List<WinnerResponse> fetchLotteryWinners(int numberOfWinners, int numberOfLottery) throws Exception;
+
+    WinnerResponse lotteryWinner(String lotteryId) throws Exception;
 }
