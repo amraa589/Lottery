@@ -28,8 +28,4 @@ public class JwtAuthenticationController {
         return userService.login(dto);
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public UserResponse signup(@RequestBody UserRequest dto) throws Exception {
-        return userService.createUser(dto);
-    }
 }

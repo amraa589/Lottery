@@ -5,15 +5,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CUSTOMER")
 public class Customer {
-    @Column(name = "FIRSTNAME")
+    @Column(name = "FIRSTNAME", nullable = false)
     private String firstName;
-    @Column(name = "LASTNAME")
+    @Column(name = "LASTNAME", nullable = false)
     private String lastName;
 
-    @Column(name = "REGISTRATION_NUMBER")
+    @Column(name = "REGISTRATION_NUMBER", unique = true, nullable = false)
     private String registrationNumber;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER", unique = true, nullable = false)
     private String phoneNumber;
     @Id
     @SequenceGenerator(name = "customer_sequence", sequenceName = "customer_sequence", allocationSize = 1)

@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,19 +20,19 @@ import java.util.List;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = {"Id", "FirstName", "LastName", "email", "UserName"};
-    static String SHEET = "customers";
+    static String[] HEADERs = {"Id", "FirstName", "LastName", "RegistrationNumber"};
+    static String SHEET = "customer";
 
     public static boolean hasExcelFormat(MultipartFile file) {
-
         return TYPE.equals(file.getContentType());
     }
 
-    public static ByteArrayInputStream usersToExcel(List<Customer> customers) {
+    public static ByteArrayInputStream customersToExcel(List<Customer> customers) {
 
         try (Workbook workbook = new XSSFWorkbook()) {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                 Sheet sheet = workbook.createSheet(SHEET);
+//                XSSFSheet sheet = workbook.createSheet(SHEET);
 
                 // Header
                 Row headerRow = sheet.createRow(0);
@@ -48,7 +49,8 @@ public class ExcelHelper {
                     row.createCell(0).setCellValue(customer.getId());
                     row.createCell(1).setCellValue(customer.getFirstName());
                     row.createCell(2).setCellValue(customer.getLastName());
-                    row.createCell(3).setCellValue(customer.getRegistrationNumber());
+                    row.createCell(3).setCellValue(customer.getPhoneNumber());
+                    row.createCell(4).setCellValue(customer.getRegistrationNumber());
 
                 }
 
@@ -62,9 +64,13 @@ public class ExcelHelper {
 
     public static List<Customer> excelToCustomers(InputStream is) {
         try {
-            Workbook workbook = new XSSFWorkbook(is);
+            XSSFWorkbook workbook = new XSSFWorkbook(is);
+            // Read customer data form excel file customer.
+            XSSFSheet sheet = workbook.getSheetAt(0);
 
-            Sheet sheet = workbook.getSheet(SHEET);
+//            Workbook workbook = new XSSFWorkbook(is);
+//            Sheet sheet = workbook.getSheet(SHEET);
+
             Iterator<Row> rows = sheet.iterator();
 
             List<Customer> customers = new ArrayList<Customer>();
@@ -99,6 +105,9 @@ public class ExcelHelper {
                             break;
 
                         case 3:
+                            customer.setPhoneNumber(currentCell.getStringCellValue());
+                            break;
+                        case 4:
                             customer.setRegistrationNumber(currentCell.getStringCellValue());
                             break;
                         default:

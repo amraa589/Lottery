@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ExcelServiceImpl {
+
     @Autowired
     UserRepository userRepository;
 
@@ -33,7 +34,7 @@ public class ExcelServiceImpl {
     public ByteArrayInputStream load() {
         List<Customer> customers = customerRepository.findAll();
 
-        ByteArrayInputStream in = ExcelHelper.usersToExcel(customers);
+        ByteArrayInputStream in = ExcelHelper.customersToExcel(customers);
         return in;
     }
 

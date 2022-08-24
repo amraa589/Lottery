@@ -1,6 +1,7 @@
 package mn.edu.num.lotteryProject.controller;
 
 import mn.edu.num.lotteryProject.dto.request.LoginRequest;
+import mn.edu.num.lotteryProject.dto.request.UserRequest;
 import mn.edu.num.lotteryProject.dto.response.UserResponse;
 import mn.edu.num.lotteryProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class UserController {
         return response;
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public UserResponse signup(@RequestBody UserRequest dto) throws Exception {
+        return userService.createUser(dto);
+    }
 
     @DeleteMapping("/delete/{id}")
     public UserResponse fetchUserList(@PathVariable String id) {

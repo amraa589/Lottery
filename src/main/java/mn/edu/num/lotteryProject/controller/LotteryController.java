@@ -74,7 +74,6 @@ public class LotteryController {
         }
     }
 
-
     //    @RequestParam("customerFile") MultipartFile customerFile
     @GetMapping("/winner/{id}")
     public WinnerResponse fetchWinnerList(@PathVariable String id) {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,31 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Override
+    public List<CustomerResponse> fetchCustomerList(){
+
+        List<Customer> list = customerRepository.findAll();
+
+        List<CustomerResponse> response = new ArrayList<>();
+
+        list.forEach((customer) -> {
+
+            CustomerResponse tmp = new CustomerResponse();
+
+            tmp.setId(customer.getId());
+            tmp.setFirstName(customer.getFirstName());
+            tmp.setLastName(customer.getLastName());
+            tmp.setPhoneNumber(customer.getPhoneNumber());
+            tmp.setRegistrationNumber(customer.getRegistrationNumber());
+
+            response.add(tmp);
+
+        });
+
+        return response;
+
+    }
 
     @Override
     public CustomerResponse createCustomer(CustomerRequest request) throws Exception{
@@ -41,6 +67,23 @@ public class CustomerServiceImpl implements CustomerService {
         response.setRegistrationNumber(customer.getRegistrationNumber());
 
         return response;
+    }
+    @Override
+    public CustomerResponse deleteCustomer(String id) throws Exception {
+        try {
+            CustomerResponse response = new CustomerResponse();
+
+            Optional<Customer> customer = customerRepository.findById(Long.parseLong(id));
+            if (customer.isPresent()) {
+                customerRepository.delete(customer.get());
+                response.setId(customer.get().getId());
+                return response;
+            } else {
+                throw new Exception("Customer does not exist");
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     public List<CustomerResponse> createCustomers(byte[] excel) throws Exception {
@@ -66,23 +109,4 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }
     }
-    @Override
-    public CustomerResponse deleteCustomer(String id) throws Exception {
-        try {
-            CustomerResponse response = new CustomerResponse();
-
-            Optional<Customer> customer = customerRepository.findById(Long.parseLong(id));
-            if (customer.isPresent()) {
-                customerRepository.delete(customer.get());
-                response.setId(customer.get().getId());
-                return response;
-            } else {
-                throw new Exception("Customer does not exist");
-            }
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-
 }

@@ -20,7 +20,13 @@ public class WinnerController {
 
     @GetMapping("/list")
     public List<WinnerResponse> fetchWinnerList() throws Exception {
-//        List<WinnerResponse> response = lotteryService.fetchLotteryWinners(1,7);
-        return null;
+        try{
+            List<WinnerResponse> response = lotteryService.fetchWinnerList();
+            return response;
+        }
+        catch(Exception e){
+            throw new Exception("Error taking list oof winners!");
+        }
+
     }
 }

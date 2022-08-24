@@ -22,5 +22,7 @@ public interface LotteryService {
 
 //    List<WinnerResponse> fetchLotteryWinners(int numberOfWinners, int numberOfLottery) throws Exception;
 
+    List<WinnerResponse> fetchWinnerList();
+
     WinnerResponse lotteryWinner(String lotteryId) throws Exception;
 }
